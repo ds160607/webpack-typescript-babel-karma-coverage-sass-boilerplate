@@ -20,7 +20,7 @@
     "lint": "npm run lint:ts && npm run lint:sass",
     "lint:ts": "tslint **/*.ts --exclude node_modules",
     "lint:sass": "sass-lint",
-    "pretest": "npm run lint",
+    
     "test": "karma start",
     "posttest": "npm run coverage",
     "coverage": "npm run coverage:remap && npm run coverage:report",

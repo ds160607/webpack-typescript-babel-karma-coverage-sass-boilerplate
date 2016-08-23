@@ -1,4 +1,4 @@
-/*/// <reference path="../../typings/money.d.ts" />
+/// <reference path="../../typings/money.d.ts" />
 /// <reference path="../../typings/jsonp-client.d.ts" />
 
 import EventBus from './event_bus';
@@ -23,8 +23,12 @@ class RateServiceRest {
 
     private isUpdating: boolean = false;
 
-    public setRefreshPeriod(timeStr: string);
-    public setRefreshPeriod(timeNum: number);
+    constructor() {
+        this.init();
+    }
+
+    public setRefreshPeriod(time: string);
+    public setRefreshPeriod(time: number);
     public setRefreshPeriod(time: any): boolean {
         let newValue: number = -1;
         if (typeof (time) === 'string') {
@@ -33,8 +37,12 @@ class RateServiceRest {
             newValue = time;
         }
 
-        if (newValue < 0 || newValue === this.refreshPeriod) {
+        if (newValue < 0) {
             return false;
+        }
+
+        if (newValue === this.refreshPeriod) {
+            return true;
         }
 
         this.refreshPeriod = newValue;
@@ -52,7 +60,12 @@ class RateServiceRest {
         let rate1ToDelete: boolean = true;
         let rate2ToDelete: boolean = true;
 
-        for (let subscribtion of this.subscribtions.values()) {
+        let item;
+        let iterator = this.subscribtions.entries();
+
+        while (!(item = iterator.next()).done) {
+            //for ( of this.subscribtions.values()) {
+            let subscribtion = item.value;
             if (subscribtion == value.getFullName()) {
                 continue;
             }
@@ -70,7 +83,10 @@ class RateServiceRest {
         this.subscribtions.delete(value.getFullName());
 
         if (rate1ToDelete || rate2ToDelete) {
-            for (let pair of this.rates.keys()) {
+            let item;
+            let iterator = this.rates.keys();
+            while (!(item = iterator.next()).done) {
+                let pair = item.value;
                 if (pair === this.BASE_CURRENCY) {
                     continue;
                 }
@@ -116,14 +132,22 @@ class RateServiceRest {
         this.rates.set(this.BASE_CURRENCY, 1);
     }
 
+    //test only//
+    public _fireUpdate() { }
+
     private fireUpdate() {
+
+        this._fireUpdate();
+
         if (this.isUpdating || this.rates.size < 2) {
             return;
         }
 
         this.cachedSymbols = "";
-        for (let rate of this.rates.keys()) {
-            this.cachedSymbols += rate + ","
+        let rate;
+        let iterator = this.rates.keys();
+        while (!(rate = iterator.next()).done) {
+            this.cachedSymbols += rate.value + ","
         }
         this.cachedSymbols = this.cachedSymbols.substring(0, this.cachedSymbols.length - 1);
         let callback = "cb" + (Math.random());
@@ -168,4 +192,4 @@ class RateServiceRest {
     }
 }
 
-export const rateServiceRest = new RateServiceRest();*/
+export const rateServiceRest = new RateServiceRest();

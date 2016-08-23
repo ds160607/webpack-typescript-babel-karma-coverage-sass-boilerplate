@@ -1,8 +1,8 @@
-require ("./styles/main.sass");
+require("./styles/main.sass");
 
 import "babel-polyfill";
 
-//import {rateServiceRest} from './app/rate_service_rest'
+import {rateServiceRest} from './app/rate_service_rest'
 //import RateServiceRest from "./rate_service_rest";
 import EventBus from './app/event_bus';
 import EventType from './app/event_type';
@@ -23,12 +23,12 @@ let symbols = new SymbolComponent("symbols");
 let rates = new RatesComponent("rates");
 
 //let rateService = RateServiceRest.getInstance();
-//let rateService = rateServiceRest;
+let rateService = rateServiceRest;
 
 let refreshPeriodSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById("refresh_period");
 refreshPeriodSelect.onchange = (event) => {
     refreshPeriod = parseInt(refreshPeriodSelect.value);
-    //rateService.setRefreshPeriod(refreshPeriod);
+    rateService.setRefreshPeriod(refreshPeriod);
     updateHash();
 }
 
@@ -39,11 +39,11 @@ symbols.onAddHandler = (pairName) => {
 
 symbols.onSubscribeHandler = (pairName) => {
     symbols.updateRow(new SymbolRow(pairName, false, true));
-    //rateService.subscribe(pairName);
+    rateService.subscribe(pairName);
 };
 
 rates.onRemovePairHandler = (pairName: string) => {
-    //rateService.unSubscribe(pairName);
+    rateService.unSubscribe(pairName);
 }
 
 eventBus.addListener(EventType.SUBSCRIBE, (data: EventData) => {
@@ -95,25 +95,30 @@ if (parts.length == 3) {
     }
 }
 
-//rateService.setRefreshPeriod(refreshPeriod);
+rateService.setRefreshPeriod(refreshPeriod);
 
 //Preselected pairs
 selectedRates.add("EURUSD");
 selectedRates.add("EURGBP");
 selectedRates.add("EURRUB");
 
-/*for (let pairName of selectedRates) {
+let pairName;
+let iterator = selectedRates.values();
+while (!(pairName = iterator.next()).done) {
+    //for (let pairName of selectedRates) {
     if (pairName) {
-        symbols.addRow(pairName);
+        symbols.addRow(pairName.value);
     }
 }
 
-for (let pairName of subscribedRates) {
+iterator = subscribedRates.values();
+while (!(pairName = iterator.next()).done) {
+    //for (let pairName of subscribedRates) {
     if (pairName) {
-        symbols.addRow(pairName);
-        rateService.subscribe(pairName);
+        symbols.addRow(pairName.value);
+        rateService.subscribe(pairName.value);
     }
-}*/
+}
 
 updateHash();
 
