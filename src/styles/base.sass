@@ -1,0 +1,54 @@
+@import colors
+
+body 
+    font-family: Arial, Helvetica, sans-serif
+
+h2
+     margin: 13px 0
+
+input, select
+    display: inline-block
+    padding: 5px 10px
+
+input:focus, select:focus
+    outline: none
+    border: 1px solid $button_nornal_background_hover
+
+button
+    border: 1px solid $button_nornal_border
+    background: $button_nornal_background
+    color: white
+    padding: 8px 12px
+    border-radius: 4px
+
+button:hover, button:focus
+    background: $button_nornal_background_hover
+    border-color: $button_nornal_background_hover
+    outline: none
+
+button:active
+    background: $button_nornal_background_active
+    border-color: $button_nornal_background_active
+
+button:disabled
+    background: $button_nornal_background_disabled
+    border-color: $button_nornal_border_disabled
+    color: white
+
+table 
+    border-collapse: collapse;
+    width: 100%;
+
+thead>tr
+    border-top: 1px solid #E1E1E1;
+    background: #F9F9F9;
+
+th
+    text-align: left;
+    padding: 15px;
+
+td
+    padding: 10px;
+
+td:last-child
+    text-align: right;

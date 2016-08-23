@@ -1,0 +1,86 @@
+@import colors
+@import base
+        
+.layout
+    min-width: 490px
+    max-width: 900px
+    margin: 10px auto
+
+.layout__header
+    margin-bottom: 10px
+
+.layout__content
+
+
+.header
+    text-align: center
+
+
+.content
+
+.content__block
+    width: 50%
+    float: left
+    min-width: 350px
+
+@media only screen and (max-width: 800px)
+    .content__block
+        width: 100%
+    
+.content__block_right
+    float: right
+
+.content__block_right:after
+    content: " "
+    clear: both
+
+
+.block
+    padding: 0 10px
+    box-sizing: border-box
+
+.block__title
+
+.block__content
+    margin-top: 10px
+
+
+.row
+    padding: 10px 30px
+    border-top: 1px solid $border
+
+.row:nth-child(odd)
+    background: $second_background
+
+.row_even:nth-child(odd)
+    background: transparent
+
+.row_even:nth-child(even)
+    background: $second_background
+
+
+
+.data-refresh-period
+    padding: 10px
+    border-top: 1px solid $border
+    background: $second_background
+
+.data-refresh-period__title
+    padding: 5px 0
+    display: inline-block
+
+.data-refresh-period__selector    
+    float: right
+
+
+
+.currencies-selector
+
+.currencies-selector__prefix
+    padding: 10px 3px 10px 10px
+
+.currencies-selector__separator, .currencies-selector__suffix
+    padding: 10px 3px
+
+.currencies-selector__button
+    padding: 10px 10px 10px 3px

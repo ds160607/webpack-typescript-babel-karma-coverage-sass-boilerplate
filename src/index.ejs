@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= webpackConfig.metadata.title %></title>
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <base href="<%= webpackConfig.metadata.baseUrl %>" />
+</head>
+<body>
+
+
+  <div class="layout">
+
+    <div class="layout__header">
+      <h1 class="header">Realtime exchange rates</h1>
+    </div>
+
+    <div class="content">
+
+      <div class="content__block">
+
+        <div class="block">
+          <div class="block__title">
+            <h2>Settings</h2>
+          </div>
+
+          <div class="block__content">
+            <div class="data-refresh-period">
+
+              <div class="data-refresh-period__title">Data refresh period:</div>
+
+              <div class="data-refresh-period__selector ">
+                <select id="refresh_period">
+              <option value="10">10 ms</option>
+              <option value="100">100 ms</option>
+              <option value="1000">1 second</option>
+              <option value="5000">5 second</option>
+              <option value="10000">10 second</option>
+              <option value="15000">15 second</option>
+            </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content__block content__block_right">
+        <div class="block">
+          <div class="block__title">
+            <h2>Rates</h2>
+          </div>
+          <div id="rates" class="block__content">
+          </div>
+        </div>
+      </div>
+      <div style="clear:left"></div>
+
+      <div class="content__block">
+        <div class="block">
+          <div class="block__title">
+            <h2>Symbols</h2>
+          </div>
+          <div id="symbols" class="block__content"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %><script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script><% } %>
+</body>
+</html>
