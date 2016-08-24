@@ -158,7 +158,6 @@ class RateServiceRest {
             "http://api.fixer.io/latest?symbols=" + this.cachedSymbols + "&callback=" + callback,
             (err, data) => {
                 this.isUpdating = false;
-                console.log("JSONP", err, data);
                 if (err == null) {
                     money.rates = {};
                     money.rates[this.BASE_CURRENCY] = 1;

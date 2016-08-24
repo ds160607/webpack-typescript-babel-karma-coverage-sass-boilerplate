@@ -2,8 +2,7 @@ require("./styles/main.sass");
 
 import "babel-polyfill";
 
-import {rateServiceRest} from './app/rate_service_rest'
-//import RateServiceRest from "./rate_service_rest";
+import { rateServiceRest } from './app/rate_service_rest'
 import EventBus from './app/event_bus';
 import EventType from './app/event_type';
 import EventData from './app/event_data';
@@ -16,16 +15,12 @@ import PairChangeEventData from './app/pair_change_event_data';
 let selectedRates: Set<string> = new Set<string>();
 let subscribedRates: Set<string> = new Set<string>();
 let refreshPeriod = 1000;
-
 let eventBus = EventBus.getInstance();
-
 let symbols = new SymbolComponent("symbols");
 let rates = new RatesComponent("rates");
-
-//let rateService = RateServiceRest.getInstance();
 let rateService = rateServiceRest;
-
 let refreshPeriodSelect: HTMLSelectElement = <HTMLSelectElement>document.getElementById("refresh_period");
+
 refreshPeriodSelect.onchange = (event) => {
     refreshPeriod = parseInt(refreshPeriodSelect.value);
     rateService.setRefreshPeriod(refreshPeriod);
@@ -38,7 +33,7 @@ symbols.onAddHandler = (pairName) => {
 };
 
 symbols.onSubscribeHandler = (pairName) => {
-    symbols.updateRow(new SymbolRow(pairName, false, true));
+    symbols.updateRow(new SymbolRow(pairName, false));
     rateService.subscribe(pairName);
 };
 
@@ -47,7 +42,7 @@ rates.onRemovePairHandler = (pairName: string) => {
 }
 
 eventBus.addListener(EventType.SUBSCRIBE, (data: EventData) => {
-    let sym = new SymbolRow(data.getData(), true, false);
+    let sym = new SymbolRow(data.getData(), true);
     symbols.updateRow(sym);
     rates.addOrUpdateRow(sym);
     subscribedRates.add(sym.pairName);
@@ -55,7 +50,7 @@ eventBus.addListener(EventType.SUBSCRIBE, (data: EventData) => {
 });
 
 eventBus.addListener(EventType.UNSUBSCRIBE, (data: EventData) => {
-    let sym = new SymbolRow(data.getData(), false, false);
+    let sym = new SymbolRow(data.getData(), false);
     symbols.updateRow(sym);
     rates.removeRow(sym.pairName);
     subscribedRates.delete(sym.pairName);
@@ -66,7 +61,6 @@ eventBus.addListener(EventType.PAIR_CHANGE, (data: EventData) => {
     let sym = new SymbolRow(
         (<PairChangeEventData>data.getData()).pairName,
         true,
-        false,
         (<CurrencyPair>data.getData()).rate
     );
     rates.addOrUpdateRow(sym);
@@ -88,10 +82,11 @@ if (parts.length == 3) {
     }
 
     if (parts[0].length > 0) {
-        selectedRates = new Set(parts[0].toUpperCase().split(","));
+        selectedRates = new Set<string>(parseRates(parts[0]));
     }
+
     if (parts[1].length > 0) {
-        subscribedRates = new Set(parts[1].toUpperCase().split(","));
+        subscribedRates = new Set<string>(parseRates(parts[1]));
     }
 }
 
@@ -122,9 +117,18 @@ while (!(pairName = iterator.next()).done) {
 
 updateHash();
 
-
-
 function updateHash() {
     let hash = Array.from(selectedRates).join(",") + "|" + Array.from(subscribedRates).join(",") + "|" + refreshPeriod;
     window.top.location.hash = hash;
+}
+
+function parseRates(ratesString) {
+    let regexp = /^[A-Z]{6}$/;
+    let rates = ratesString.toUpperCase().split(",");
+    for (let rate of rates) {
+        if (!regexp.test(rate)) {
+            return null;
+        }
+    }
+    return rates;
 }

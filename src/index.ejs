@@ -15,7 +15,7 @@
   <div class="layout">
 
     <div class="layout__header">
-      <h1 class="header">Realtime exchange rates</h1>
+      <h1 class="header"><%= webpackConfig.metadata.title %></h1>
     </div>
 
     <div class="content">
@@ -67,11 +67,12 @@
         </div>
       </div>
     </div>
-
   </div>
   </div>
 
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+  <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+<% } %>
 
-<% for (var chunk in htmlWebpackPlugin.files.chunks) { %><script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script><% } %>
 </body>
 </html>

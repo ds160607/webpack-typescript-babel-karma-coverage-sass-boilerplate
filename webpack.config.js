@@ -1,10 +1,5 @@
 'use strict';
 
-/**
- * TODO: Comments?
- * TODO: HMR
- */
-
 switch (process.env.NODE_ENV) {
     case 'prod':
     case 'production':

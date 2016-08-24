@@ -57,7 +57,7 @@ export default class SymbolComponent {
     public updateRow(row: SymbolRow) {
         let addButton = this.getSubscribePairButton(row.pairName);
         if (addButton) {
-            addButton.disabled = row.subscribed || row.inProgress;
+            addButton.disabled = row.subscribed;
         }
     }
 
