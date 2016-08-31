@@ -25,7 +25,7 @@ module.exports = {
 
     module: {
         loaders: [            
-            { test: /\.ts$/, loader: 'babel-loader?presets[]=es2015!ts-loader' },
+            { test: /\.ts$/, loader: 'ts-loader' },
             //{ test: /\.json$/, loader: 'json-loader' },
             //{ test: /\.html$/, loader: 'html-loader' },
             { test: /\.sass$/, loaders:["style", "css", "sass"]}            
